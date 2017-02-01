@@ -1,0 +1,23 @@
+@relation weather-weka.filters.unsupervised.attribute.PKIDiscretize-R2
+
+@attribute outlook {sunny,overcast,rainy}
+@attribute temperature {cool,medium,hot}
+@attribute humidity numeric
+@attribute windy {TRUE,FALSE}
+@attribute play {yes,no}
+
+@data
+sunny,hot,85,FALSE,no
+sunny,hot,90,TRUE,no
+overcast,hot,86,FALSE,yes
+rainy,cool,96,FALSE,yes
+rainy,cool,80,FALSE,yes
+rainy,cool,70,TRUE,no
+overcast,cool,65,TRUE,yes
+sunny,medium,95,FALSE,no
+sunny,cool,70,FALSE,yes
+rainy,medium,80,FALSE,yes
+sunny,medium,70,TRUE,yes
+overcast,medium,90,TRUE,yes
+overcast,hot,75,FALSE,yes
+rainy,medium,91,TRUE,no

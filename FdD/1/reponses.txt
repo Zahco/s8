@@ -1,0 +1,53 @@
+3.1
+Instances: 14
+Attributs du jeu de données: 5
+
+3.2
+outlook (Nominal, 0%, 3, 0, [sunny(5), overcast(4), rainy(5)])
+temperature (Numeric, 0%, 12, 10, [64, 85, 73.571, 6.572])
+humidity (Numeric, 0%, 10, 7, [65, 96, 81.643, 10.285])
+windy (Nominal, 0%, 2, 0, [TRUE(6), FALSE(8)])
+play (Nominal, 0%, 2, 0, [yes(9), no(5)])
+
+3.3
+temperature: 64, 85
+humidity: 65, 96
+
+3.4
+overcast
+
+3.5
+humidity  [65, 80.5[ TRUE
+          [80.5, 96] FALSE
+
+3.6
+non
+
+3.7
+InfoGainAttributeEval : outlook windy humidity temperature
+ReliefAttributeEval : outlook humidity windy temperature
+GainRatioAttributeEval : outlook windy humidity temperature
+SymetricalUnsertAttributeEval : outlook windy humidity temperature
+OneRAttributeEval : humidity outlook temperature windy
+ChiSquaredAttributeEval : inconnu
+
+3.8
+outlook windy humidity temperature
+
+3.9
+TRUE sunny: 2
+TRUE overcast: 2
+TRUE rainy: 2
+FALSE sunny: 3
+FALSE overcast: 2
+FALSE rainy: 3
+
+3.10
+Instance: 2
+outlook : sunny
+temperature : 80.0
+humidity : 90.0
+windy : TRUE
+play : no
+
+
