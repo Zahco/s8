@@ -19,3 +19,92 @@
 (70.5-77.5] 5
 (77.5-inf] 4
 
+2.5
+1-3-1-3
+
+2.6
+neg_5-10
+pos_5-10
+
+2.7
+Température froide et humidité faible
+
+2.8
+T(cool) yes
+T(medium) H(low-medium) yes
+T(hot) H(low-medium) yes
+
+2.9
+outlook: overcast
+temperature: cool
+humidity: low-medium
+windy: false
+
+3.1
+On peut pas l'appliquer.
+
+3.2
+outlook=overcast 4 ==> play=yes 4    <conf:(1)>
+outlook=rainy windy=FALSE 3 ==> play=yes 3    <conf:(1)>
+temperature=cool windy=FALSE 3 ==> play=yes 3    <conf:(1)>
+
+3.3
+temperature=hot play=no 2 ==> outlook=sunny 2    <conf:(1)>
+outlook=sunny humidity=high 2 ==> play=no 2    <conf:(1)>
+
+3.4
+If outlook = overcast then yes
+If temperature = cool
+   and windy = FALSE then yes
+If temperature = temperate
+   and humidity = low then yes
+If humidity = medium
+   and outlook = rainy then yes
+If outlook = sunny
+   and temperature = hot then no
+If humidity = high
+   and outlook = sunny then no
+If outlook = rainy
+   and windy = TRUE then no
+
+3.5
+temperature = temperate
+   and humidity = low
+n'apparait pas dans les regle de apriori
+
+3.6
+outlook=overcast 4 ==> play=yes 4    conf:(1)
+outlook=rainy windy=FALSE 3 ==> play=yes 3    conf:(1)
+temperature=cool windy=FALSE 3 ==> play=yes 3    conf:(1)
+outlook=sunny humidity=low 2 ==> play=yes 2    conf:(1)
+outlook=overcast temperature=hot 2 ==> play=yes 2    conf:(1)
+
+outlook=sunny temperature=hot 2 ==> play=no 2    conf:(1)
+outlook=sunny humidity=high 2 ==> play=no 2    conf:(1)
+outlook=rainy windy=TRUE 2 ==> play=no 2    conf:(1)
+
+3.7 (16)
+outlook=overcast 4 ==> play=yes 4    conf:(1)
+outlook=rainy windy=FALSE 3 ==> play=yes 3    conf:(1)
+temperature=cool windy=FALSE 3 ==> play=yes 3    conf:(1)
+outlook=sunny humidity=low 2 ==> play=yes 2    conf:(1)
+outlook=overcast temperature=hot 2 ==> play=yes 2    conf:(1)
+
+outlook=sunny temperature=hot 2 ==> play=no 2    conf:(1)
+outlook=sunny humidity=high 2 ==> play=no 2    conf:(1)
+outlook=rainy windy=TRUE 2 ==> play=no 2    conf:(1)
+
+4.1
+-N 200 -D 0.5
+135. temperature=hot 4 ==> play=yes 2    conf:(0.5)
+136. temperature=hot 4 ==> play=no 2    conf:(0.5)
+
+4.2 (18)
+136. temperature=hot 4 ==> play=no 2    conf:(0.5)
+
+4.3
+Oui
+
+4.4 (20)
+ 42. humidity=low 5 ==> play=yes 4    conf:(0.8)
+113. humidity=high 5 ==> play=no 3    conf:(0.6)
