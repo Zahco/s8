@@ -1,0 +1,53 @@
+2.1
+Impossible
+2.2
+Impossible
+2.3
+Impossible
+
+
+3.1
+Impossible
+3.2
+Impossible
+3.3
+Impossible
+
+4.1
+play=yes (64.29% [9/14])
+  humidity <= 80 (85.71% [6/7])
+  |   temperature > 65 (100% [5/5])
+  windy = FALSE (75% [6/8])
+  |   temperature <= 83 (85.71% [6/7])
+  |   |   humidity <= 86 (100% [5/5])
+  |   humidity <= 86 (83.33% [5/6])
+  
+4.2
+play=yes (64.29% [9/14])
+  humidity = low-medium (85.71% [6/7])
+  windy = FALSE (75% [6/8])
+  
+5.1
+Non. Car le fichier contient des valeurs numériques.
+
+5.2
+bank-data5-2.csv.arff
+
+5.3
+bank-data5-3a.csv.arff
+bank-data5-3b.csv.arff
+
+5.4
+Impossible
+
+5.5
+ 1. /* 0,400446 0,020000 */ age = '(-inf-34.333333]' ==> income = '(-inf-24386.173333]'
+ 2. /* 0,336064 0,121667 */ income = '(-inf-24386.173333]' ==> age = '(-inf-34.333333]'
+ 3. /* 0,320998 0,045000 */ income = '(-inf-24386.173333]' ==> save_act = NO or age = '(-inf-34.333333]'
+ 4. /* 0,303847 0,013333 */ age = '(-inf-34.333333]' ==> income = '(-inf-24386.173333]' or children = '(2.25-inf)'
+ 5. /* 0,302589 0,010000 */ pep = NO and age = '(-inf-34.333333]' ==> income = '(-inf-24386.173333]'
+ 6. /* 0,299144 0,003333 */ income = '(43758.136667-inf)' ==> age = '(50.666667-inf)'
+ 7. /* 0,298962 0,018333 */ age = '(-inf-34.333333]' ==> region = SUBURBAN or income = '(-inf-24386.173333]'
+ 8. /* 0,289126 0,010000 */ age = '(-inf-34.333333]' ==> income = '(-inf-24386.173333]' or current_act = NO
+ 9. /* 0,288708 0,035000 */ children = '(0.75-1.5]' ==> pep = YES
+10. /* 0,285261 0,016667 */ age = '(-inf-34.333333]' ==> region = RURAL or income = '(-inf-24386.173333]'

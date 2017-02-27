@@ -1,0 +1,4 @@
+fork: http://jsfiddle.net/2r416edn/
+doc: http://www.geonames.org/export/web-services.html#findNearby
+
+Blocage d’une requête multi-origines (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur https://api.wolframalpha.com/v2/query?latlong=49.3867,1.0694&output=JSON&appid=DEMO. Raison : l’en-tête CORS « Access-Control-Allow-Origin » est manquant.  (source inconnue)
