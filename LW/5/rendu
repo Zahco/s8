@@ -1,0 +1,81 @@
+
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+collection("/db/sepa")/sepa:Document/DrctDbtTxInf/PmtId/text()
+
+II.3
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+for $t in collection("/db/sepa")/sepa:Document/DrctDbtTxInf
+return <l>{$t/PmtId/text()} - {$t/InstdAmt/text() }</l>
+
+II.4
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+<results>
+    {
+        for $t in collection("/db/sepa")/sepa:Document/DrctDbtTxInf
+        order by $t/DrctDbtTx/MndtRltdInf/DtOfSgntr
+        return <Trx>({$t/DrctDbtTx/MndtRltdInf/DtOfSgntr/text()}) {lower-case($t/PmtId/text())}</Trx>
+    }
+</results>
+
+II.5
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+<results>
+    {
+        for $t in collection("/db/sepa")/sepa:Document/DrctDbtTxInf
+        order by $t/InstdAmt descending
+        return <Trx>({$t/InstdAmt/text()} {string($t/InstdAmt/@Ccy)}) {upper-case($t/PmtId/text())}</Trx>
+    }
+</results>
+
+II.6
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+<stats>
+    <count>
+        {
+            for $d in collection("/db/sepa")/sepa:Document
+            return count($d/DrctDbtTxInf)
+        }
+    </count>
+    <avg>
+        {
+            for $d in collection("/db/sepa")/sepa:Document
+            return avg($d/DrctDbtTxInf/InstdAmt)
+        }
+    </avg>
+    <sum>
+        {
+            for $d in collection("/db/sepa")/sepa:Document
+            return sum($d/DrctDbtTxInf/InstdAmt)
+        }
+    </sum>
+</stats>
+
+II.7
+xquery version "3.1";
+declare namespace sepa="http://univ.fr/sepa";
+<results>
+    {
+        for $t in collection("/db/sepa")/sepa:Document/DrctDbtTxInf
+        return 
+            <Trx>
+                {
+                    for $t in $t
+                    return <Name>{upper-case($t/PmtId/text())}</Name>
+                }
+                {
+                    for $t in $t
+                    return if (count($t/DbtrAgt/FinInstnId/BIC) > 0)
+                        then
+                            <BIC>{$t/DbtrAgt/FinInstnId/BIC/text()}</BIC>
+                        else
+                            <ID>{$t/DbtrAgt/FinInstnId/Othr/Id/text()}</ID>
+                }
+            </Trx>
+    }
+</results>
+
