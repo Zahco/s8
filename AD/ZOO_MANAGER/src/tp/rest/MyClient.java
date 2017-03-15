@@ -17,6 +17,8 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.http.HTTPBinding;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
@@ -72,8 +74,8 @@ public class MyClient {
         sendRequest("/animals/" + id, "PUT", new JAXBSource(jc, animal));
     }
 
-    private void find_by_name(String name) throws JAXBException {
-        sendRequest("/find/byName/" + name, "GET", null);
+    private void find_by_name(String name) throws JAXBException, UnsupportedEncodingException {
+        sendRequest("/find/byName/" + URLEncoder.encode(name, "UTF-8"), "GET", null);
     }
 
     private void find_at(Position position) throws Exception {
@@ -183,7 +185,7 @@ public class MyClient {
         client.remove_animals();
 
         client.get_animals();print(" ");
-//        client.find_near(new Position(49.443889,1.103333));
+        client.find_near(new Position(49.443889,1.103333));
         client.find_at(new Position(49.443889,1.103333));
 
 

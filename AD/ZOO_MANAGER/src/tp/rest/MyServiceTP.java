@@ -1,5 +1,7 @@
 package tp.rest;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 
 import javax.xml.bind.JAXBContext;
@@ -136,6 +138,8 @@ public class MyServiceTP implements Provider<Source> {
             }
         } catch (JAXBException e) {
             throw new HTTPException(500);
+        } catch (UnsupportedEncodingException e) {
+            throw new HTTPException(500);
         }
     }
 
@@ -224,15 +228,15 @@ public class MyServiceTP implements Provider<Source> {
         //Ajoute un animal dans votre centre
         else if ("POST".equals(method)) {
             Animal animal = unmarshalAnimal(source);
-            print(animal.toString());
+            //print(animal.toString());
             Collection<Animal> ca = this.center.getCages()
                     .stream()
                     .filter(cage -> cage.getName().equals(animal.getCage()))
                     .findFirst()
                     .orElseThrow(() -> new HTTPException(404))
                     .getResidents();
-            if (ca == null) print("null");
-            else print("pas null");
+//            if (ca == null) print("null");
+//            else print("pas null");
             this.center.getCages()
                     .stream()
                     .filter(cage -> cage.getName().equals(animal.getCage()))
@@ -260,18 +264,21 @@ public class MyServiceTP implements Provider<Source> {
     }
     /**
      * Method bound to calls on /find/byName/{name}
+     * Cherche et renvoie l'animal par son nom
      */
-    private Source findAnimalsByName(String method, Source source, String name) throws JAXBException {
+    private Source findAnimalsByName(String method, Source source, String name) throws JAXBException, UnsupportedEncodingException {
+        String nameD = URLDecoder.decode(name, "UTF-8");
+        print(nameD);
         if ("GET".equals(method)) {
              Optional<Animal> opA = this.center.getCages().stream()
                      .map(Cage::getResidents)
                      .flatMap(Collection::stream)
-                     .filter(animal -> animal.getName().equals(name))
+                     .filter(animal -> animal.getName().equals(nameD))
                      .findFirst();
              if (opA.isPresent()) {
                  return new JAXBSource(this.jc, opA.get());
              } else {
-                 throw new HTTPException(404);
+                 return new JAXBSource(this.jc, this.center);
              }
 
         }
@@ -279,7 +286,10 @@ public class MyServiceTP implements Provider<Source> {
             throw new HTTPException(405);
         }
     }
-
+    /**
+     * Method bound to calls on /find/At
+     * Cherche et renvoie l'animal par sa position
+     */
     private Source findAnimalsByAt(String method, Source source) throws JAXBException {
         Position position = this.unmarshalPosition(source);
 
@@ -290,7 +300,7 @@ public class MyServiceTP implements Provider<Source> {
             if (opC.isPresent()) {
                 return new JAXBSource(this.jc, opC.get());
             } else {
-                throw new HTTPException(404);
+                return new JAXBSource(this.jc, this.center);
             }
 
         }
@@ -317,10 +327,6 @@ public class MyServiceTP implements Provider<Source> {
             throw new HTTPException(405);
         }
     }
-
-//    <T> T unmarshal(Source source)throws JAXBException {
-//        return (T) this.jc.createUnmarshaller().unmarshal(source);
-//    }
 
 
     private Animal unmarshalAnimal(Source source) throws JAXBException {
