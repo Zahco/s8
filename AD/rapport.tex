@@ -29,12 +29,17 @@
 \section{Problèmes Rencontrés}
 
 \subsection{Transmition des positions}
+L'une des fonctionnalité proposée consiste à rechercher des animaux en fonction d'une position donnée. Pour se faire le client doit transmettre des coordonnées. Dans le sujet du projet, il est indiqué que la requête du client ne contient pas de body. J'ai donc commencé par transmettre les positions dans l'url de la requête. Ne pouvant pas disposé des fonctions unmarshall, j'ai décidé de transmettre la position dans le corps de la requête avec la méthode POST.
+
 \subsection{Création de cages}
-\begin
-L'ajout du scénario dans la seconde partie du TP m'a permis de constater que certaine fonction était inutile ou qu'il en manquait. Suite à cette partie, j'ai donc pris l'initiative d'ajouter ou de ne pas faire certaine fonction.\end
+L'ajout du scénario dans la seconde partie du TP m'a permis de constater que certaine fonction était inutile ou qu'il en manquait. Suite à cette partie, j'ai donc pris l'initiative d'ajouter ou de ne pas faire certaine fonction.
 Parmi les fonctions ajoutées, nous avons notamment une fonction permettant de créer une cage. En revanche, une cage ne peux jamais être détruite.
 
 \subsection{Création des résidents}
+Lors de la création d'une cage, celle-ci peut être vide. Le client sera le premier à créer le modèle de la cage. C'est donc lui qui initialisera les résidents, avec la possibilité de laisser la cage vide ou d'y placer des animaux. \\
+Dans le cas où la cage reste vide, lors de la conversion marshall, aucune balise residents n'apparait dans le flux. Donc lors de la réception par le serveur, la liste des résidents sera NULL. Il ne faut donc pas oublier d'initialiser aussi coté serveur la liste des résidents dans le cas où celle-ci est vide.
+
 \subsection{URLEncoder}
+Une des fonctionnalité propose de rechercher des animaux par leur nom. Le nom des animaux peut être composé par plusieurs mot et donc peut contenir des espaces. Comme je transmet le nom dans l'url de la requête, il ne faut donc pas oublier d'encoder coté client et décoder coté serveur.
   
 \end{document}
