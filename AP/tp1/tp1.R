@@ -1,3 +1,4 @@
+#~ R --vanilla tp1.R
 library(rpart)
 tennis <- read.table("tennis_data.txt")
 #~ tennis
@@ -25,4 +26,5 @@ ad.car.prune <- prune(ad.car, 0.03)
 #~ plot (ad.car.prune)
 #~ text (ad.car.prune)
 ad.car$cptable
-
+#~ prune(ad.car, cp=0.044444)
+plot(ad.car$cptable[,4], ad.car$cptable[,3])
