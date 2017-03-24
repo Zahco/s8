@@ -5,41 +5,52 @@ import tp.model.*;
 import javax.ws.rs.*;
 import javax.xml.bind.JAXBException;
 import javax.xml.ws.http.HTTPException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.UUID;
+import java.sql.SQLException;
+import java.util.*;
 
 @Path("/zoo-manager/")
 public class MyServiceTP {
 
     private Center center = new Center(new LinkedList<>(), new Position(49.30494d, 1.2170602d), "Biotropica");
+    private MyServiceTPDAO myServiceTPDAO;
 
-    public MyServiceTP() {
+    public MyServiceTP() throws Exception {
         // Fill our center with some animals
+//        Cage usa = new Cage(
+//                "usa",
+//                new Position(49.305d, 1.2157357d),
+//                25,
+//                new LinkedList<>(Arrays.asList(
+//                        new Animal("Tic", "usa", "Chipmunk", UUID.randomUUID()),
+//                        new Animal("Tac", "usa", "Chipmunk", UUID.randomUUID())
+//                ))
+//        );
+//
+//        Cage amazon = new Cage(
+//                "amazon",
+//                new Position(49.305142d, 1.2154067d),
+//                15,
+//                new LinkedList<>(Arrays.asList(
+//                        new Animal("Canine", "amazon", "Piranha", UUID.randomUUID()),
+//                        new Animal("Incisive", "amazon", "Piranha", UUID.randomUUID()),
+//                        new Animal("Molaire", "amazon", "Piranha", UUID.randomUUID()),
+//                        new Animal("De lait", "amazon", "Piranha", UUID.randomUUID())
+//                ))
+//        );
+
         Cage usa = new Cage(
                 "usa",
                 new Position(49.305d, 1.2157357d),
                 25,
-                new LinkedList<>(Arrays.asList(
-                        new Animal("Tic", "usa", "Chipmunk", UUID.randomUUID()),
-                        new Animal("Tac", "usa", "Chipmunk", UUID.randomUUID())
-                ))
+                new LinkedList<>()
         );
 
-        Cage amazon = new Cage(
-                "amazon",
-                new Position(49.305142d, 1.2154067d),
-                15,
-                new LinkedList<>(Arrays.asList(
-                        new Animal("Canine", "amazon", "Piranha", UUID.randomUUID()),
-                        new Animal("Incisive", "amazon", "Piranha", UUID.randomUUID()),
-                        new Animal("Molaire", "amazon", "Piranha", UUID.randomUUID()),
-                        new Animal("De lait", "amazon", "Piranha", UUID.randomUUID())
-                ))
-        );
+//        center.getCages().addAll(Arrays.asList(usa, amazon));
+        center.getCages().addAll(Arrays.asList(usa));
 
-        center.getCages().addAll(Arrays.asList(usa, amazon));
+        myServiceTPDAO = new MyServiceTPDAO();
+        myServiceTPDAO.addAnimal(new Animal("Tic", "usa", "Chipmunk", UUID.randomUUID()));
+
     }
 
     /**
@@ -62,8 +73,8 @@ public class MyServiceTP {
     @GET
     @Path("/animals/")
     @Produces("application/xml")
-    public Center getAnimals(){
-        return this.center;
+    public List<Animal> getAnimals() throws SQLException {
+        return myServiceTPDAO.selectAnimal();
     }
 
     /**

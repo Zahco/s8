@@ -28,7 +28,7 @@ public class MyClient {
     private JAXBContext jc;
 
     private static final QName qname = new QName("", "");
-    private static final String url = "http://127.0.0.1:8080/rest-service/zoo-manager";
+    private static final String url = "http://gs-zoo-manager.eu-gb.mybluemix.net/zoo-manager";
 
     private MyClient() {
         try {
@@ -126,28 +126,6 @@ public class MyClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        service = Service.create(qname);
-//        service.addPort(qname, HTTPBinding.HTTP_BINDING, url + urlPrefixe);
-//        Dispatch<Source> dispatcher = service.createDispatch(qname, Source.class, Service.Mode.MESSAGE);
-//        Map<String, Object> requestContext = dispatcher.getRequestContext();
-//        requestContext.put(MessageContext.HTTP_REQUEST_METHOD, method);
-//
-//        //HEADER
-//        List<String> contentType = new ArrayList<String>();
-//        contentType.add("application/xml");
-//        Map<String, List<String>> headers = new HashMap<String, List<String>>();
-//        headers.put("Content-Type", contentType);
-//        requestContext.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
-//
-////        if (source != null) {
-////            Map<String, List<String>> efffectiveheaders = (Map<String, List<String>>) requestContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-////            if (efffectiveheaders == null) print("headers = null");
-////            List<String> l = efffectiveheaders.get("Content-Type");
-////            l.add("application/xml");
-////        }
-//        Source result = dispatcher.invoke(source);
-//        printSource(result);
     }
 
     public static void main(String args[]) throws Exception {
@@ -223,7 +201,7 @@ public class MyClient {
         client.remove_animals();
         client.get_animals();print(" ");
 
-        client.find_by_name("Galago de Rondo");
+        //client.find_by_name("Galago de Rondo");
         client.remove_animals();
         client.remove_animals();
 
