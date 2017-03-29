@@ -130,16 +130,8 @@ public class MyClient {
 
     public static void main(String args[]) throws Exception {
         MyClient client = new MyClient();
-//        client.add_animal(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()));
-//        client.remove_animals();
-//        client.update_animals();
-//        client.add_animal_with_id(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()), UUID.randomUUID().toString());
-//        client.remove_animal_with_id(new Animal(UUID.randomUUID().toString());
-//        client.update_animal_with_id(new Animal("Bob", "amazon", "Arapaima gigas", UUID.randomUUID()), UUID.randomUUID().toString());
-//        client.find_by_name("Tic");
-//        client.find_at(new Position(49.305d, 1.2157357d));
-//        client.find_near(new Position(49.305d, 1.2157357d));
-        client.senario();
+//        client.senario();
+        client.cloudScenario();
     }
 
     public void senario() throws Exception {
@@ -211,6 +203,14 @@ public class MyClient {
 
 
         client.get_animals();print(" ");
+    }
+
+    public void cloudScenario() throws Exception {
+        get_animals();
+        add_animal(new Animal("Panda", "Rouen", "Panda"));
+        get_animals();
+        remove_animals();
+        get_animals();
     }
 
     private void print(String msg) {
