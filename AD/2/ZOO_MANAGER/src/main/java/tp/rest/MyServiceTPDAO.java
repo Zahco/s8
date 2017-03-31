@@ -26,7 +26,7 @@ public class MyServiceTPDAO {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("USE zoo");
         stmt.executeUpdate("DROP TABLE IF EXISTS animals");
-        stmt.executeUpdate("DROP TABLE IF EXISTS cages");
+        // stmt.executeUpdate("DROP TABLE IF EXISTS cages");
         //fix https://bugs.mysql.com/bug.php?id=83165
         stmt.executeUpdate("CREATE TABLE animals (id varchar(100), name varchar(100), cage varchar(100), species varchar(100), PRIMARY KEY (id))");
     }
