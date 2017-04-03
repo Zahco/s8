@@ -12,7 +12,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
 public class Utils {
 	public static final int imWidth = 28;
 	public static final int imHeight = 28;
@@ -75,10 +74,21 @@ public class Utils {
         frmMain.setVisible(true);
 	}
 
+    public static ArrayList<ArrayList<LabelledData>> convertToLabelledData(ArrayList<ArrayList<byte[]>> classes) {
+        ArrayList<ArrayList<LabelledData>> convert = new ArrayList<ArrayList<LabelledData>>(classes.size());
+        for (int cls = 0; cls < classes.size(); ++cls) {
+            convert.add(cls, new ArrayList<LabelledData>(classes.get(cls).size()));
+            for (int j = 0; j < classes.get(cls).size(); ++j) {
+                convert.get(cls).add(j, new LabelledData(cls, classes.get(cls).get(j)));
+            }
+        }
+        return convert;
+    }
+
 	public static double euclideDistance(byte[] a, byte[] b) {
 		double sum = 0;
 		for (int i = 0; i < a.length; ++i) {
-			sum += (a[i] - b[i])^2;
+			sum += Math.pow(a[i] - b[i], 2);
 		}
 		return Math.sqrt(sum);
 	}
@@ -87,15 +97,26 @@ public class Utils {
 	    return euclideDistance(a.getGlyph(), b.getGlyph());
     }
 
-	public static ArrayList<LabelledData> randomGlyphe(ArrayList<ArrayList<byte[]>> classes, int n) {
+	public static ArrayList<LabelledData> randomGlyphe(ArrayList<ArrayList<LabelledData>> classes, int n) {
         ArrayList<LabelledData> glyphes = new ArrayList<LabelledData>();
 	    for (int cls = 0; cls < 10; ++cls) {
-	        for (int j = 0; j < n; ++cls) {
-	            int glyphe = ThreadLocalRandom.current().nextInt() % imSize;
-                glyphes.add(new LabelledData(cls, (classes.get(cls).get(glyphe))));
+	        for (int j = 0; j < n; ++j) {
+	            int glyphe = ThreadLocalRandom.current().nextInt(classes.get(cls).size());
+                glyphes.add(classes.get(cls).get(glyphe));
             }
         }
         return glyphes;
+    }
+
+    public static ArrayList<ArrayList<LabelledData>> multiRandomGlyphe(ArrayList<ArrayList<byte[]>> classes, int n, int m) {
+        ArrayList<ArrayList<LabelledData>> panel = convertToLabelledData(classes);
+	    ArrayList<ArrayList<LabelledData>> multiRandomGlyphes = new ArrayList<ArrayList<LabelledData>>();
+	    for (int i = 0; i < m; ++i) {
+            ArrayList<LabelledData> randomGlyphes = randomGlyphe(panel, n);
+            for (int j = 0; j < classes.size(); ++j) panel.get(i).removeAll(randomGlyphes);
+            multiRandomGlyphes.add(randomGlyphes);
+        }
+	    return multiRandomGlyphes;
     }
 
     public static ArrayList<LabelledData> k_pp_voisins(LabelledData glyphe, ArrayList<LabelledData> glyphes, int k) {
@@ -109,5 +130,22 @@ public class Utils {
             if (k_pp_voisins.size() == k) break;
         }
 	    return k_pp_voisins;
+    }
+
+    public static int classe_principal(ArrayList<LabelledData> k_pp_voisins) {
+	    int[] classes = new int[10];
+        //Get number of glyphe by class
+        for (LabelledData label : k_pp_voisins) {
+	        classes[label.getCls()]++;
+        }
+        //Get max class
+        int max = 0;
+        for (int i = 0; i < classes.length; ++i) {
+	        if (classes[i] > classes[max]) {
+	            max = i;
+            }
+        }
+        System.out.println("["+max+"] "+classes[max]+"/"+k_pp_voisins.size());
+        return max;
     }
 }
