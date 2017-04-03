@@ -37,19 +37,23 @@ public class MyServiceTP {
 //                        new Animal("De lait", "amazon", "Piranha", UUID.randomUUID())
 //                ))
 //        );
-
-        Cage usa = new Cage(
-                "usa",
-                new Position(49.305d, 1.2157357d),
-                25,
-                new LinkedList<>()
-        );
-
+//
+//        Cage usa = new Cage(
+//                "usa",
+//                new Position(49.305d, 1.2157357d),
+//                25,
+//                new LinkedList<>()
+//        );
+//
 //        center.getCages().addAll(Arrays.asList(usa, amazon));
-        center.getCages().addAll(Arrays.asList(usa));
-
-        myServiceTPDAO = new MyServiceTPDAO();
-        myServiceTPDAO.addAnimal(new Animal("Tic", "usa", "Chipmunk", UUID.randomUUID()));
+//        center.getCages().addAll(Arrays.asList(usa));
+        try {
+            myServiceTPDAO = new MyServiceTPDAO();
+            myServiceTPDAO.addAnimal(new Animal("Tic", "usa", "Chipmunk", UUID.randomUUID()));
+        } catch (Exception e) {
+            System.out.println("*** [ERROR] SQL FAILED:");
+            e.printStackTrace();
+        }
 
     }
 
@@ -83,15 +87,9 @@ public class MyServiceTP {
     @POST
     @Path("/animals/")
     @Consumes({"application/xml", "application/json" })
-    public Center postAnimals(Animal animal) throws JAXBException {
-        this.center.getCages()
-                .stream()
-                .filter(cage -> cage.getName().equals(animal.getCage()))
-                .findFirst()
-                .orElseThrow(() -> new HTTPException(404))
-                .getResidents()
-                .add(animal);
-        return this.center;
+    public List<Animal>  postAnimals(Animal animal) throws SQLException {
+        myServiceTPDAO.addAnimal(animal);
+        return myServiceTPDAO.selectAnimal();
     }
     /**
      * DELETE method bound to calls on /animals
@@ -99,9 +97,9 @@ public class MyServiceTP {
     @DELETE
     @Path("/animals/")
     @Produces("application/xml")
-    public Center deleteAnimals() throws JAXBException {
-        this.center.getCages().forEach(cage -> cage.getResidents().clear());
-        return this.center;
+    public List<Animal> deleteAnimals() throws SQLException {
+        myServiceTPDAO.deleteAnimals();
+        return myServiceTPDAO.selectAnimal();
     }
     /**
      * PUT method bound to calls on /animals

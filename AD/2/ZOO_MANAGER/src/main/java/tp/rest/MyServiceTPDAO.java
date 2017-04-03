@@ -13,21 +13,22 @@ import java.util.UUID;
 public class MyServiceTPDAO {
 
     private Connection connection;
-    private final static String url = "jdbc:mysql://sl-eu-lon-2-portal.1.dblayer.com:17052";
+    private final static String url = "jdbc:mysql://sl-eu-lon-2-portal.1.dblayer.com:17052?useSSL=false";
     private final static String user = "admin";
     private final static String pwd = "LREAOQURMKGBDMFV";
 
     public MyServiceTPDAO() throws Exception {
-        Connection connection = null;
+        connection = null;
 
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             connection =
                     DriverManager.getConnection(url, user, pwd);
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("USE zoo");
         stmt.executeUpdate("DROP TABLE IF EXISTS animals");
-        stmt.executeUpdate("DROP TABLE IF EXISTS cages");
-        stmt.executeUpdate("CREATE TABLE animals (id varchar(100), name varchar(100), cage varchar(100), species varchar(100))");
+        // stmt.executeUpdate("DROP TABLE IF EXISTS cages");
+        //fix https://bugs.mysql.com/bug.php?id=83165
+        stmt.executeUpdate("CREATE TABLE animals (id varchar(100), name varchar(100), cage varchar(100), species varchar(100), PRIMARY KEY (id))");
     }
 
     public void addAnimal(Animal animal) throws SQLException {
@@ -53,6 +54,11 @@ public class MyServiceTPDAO {
                     ));
         }
         return animals;
+    }
+
+    public void deleteAnimals() throws  SQLException {
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("delete from animals");
     }
 
 
