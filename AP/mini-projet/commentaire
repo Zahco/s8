@@ -1,0 +1,16 @@
+# play  Medium
+        # modifier ici avec les quelques conditions pour éviter de faire une grosse erreur aux derniers tours
+# play hard
+        # utiliser le réseau neuronal pour choisir le nombre de bâtons à jouer
+        # utiliser l'attribut self.previousNeuron pour avoir le neuron précédemment sollicité dans la partie
+        # calculer un 'shift' qui correspond à la différence entre la valeur du précédent neurone et le nombre de bâtons encore en jeu
+        # utiliser la méthode 'chooseConnectedNeuron' du self.previousNeuron puis retourner le nombre de bâtons à jouer
+        # bien activer le réseau de neurones avec la méthode 'activateNeuronPath' après avoir choisi un neurone cible
+        # attention à gérer les cas particuliers (premier tour ou sticks==1) 
+chooseConnectedNeuron
+	# TODO méthode qui retourne un neurone connecté au neurone actuel en fonction du 'shift' (cf. CPUPlayer).
+        # On devra utiliser la méthode self.weighted_choice pour choisir au hasard dans une liste de connexions disponibles en fonction de leurs poids
+testNeuron
+        # TODO renvoie un booléen: True si la différence entre la 'inValue' et la valeur du neurone actuel est comprise entre 1 et 3 inclus
+recompenseConnection
+        # TODO récompenser la connexion entre le neurone actuel et 'neuron'

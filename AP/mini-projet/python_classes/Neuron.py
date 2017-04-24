@@ -5,64 +5,75 @@ RECOMPENSE = 8
 
 class NeuronNetwork:
     def __init__(self, maxDist, nbSticks):
+        # Enregistrement des neurons
         self.neurons = []
         for i in range(1, nbSticks + 1):
             self.neurons.append(Neuron(self, i))
         for neuron in self.neurons:
             neuron.makeConnections(maxDist, nbSticks, BASE_WEIGHT)
         self.initPath()
-    def initPath(self):
-        self.path = {}
+
+    # Renvoie le neuron d'index index
+    # Renvoie None si index est invalide
     def getNeuron(self, index):
         if index - 1 >= 0 and index <= len(self.neurons):
             return self.neurons[index - 1]
         else:
             return None
-    def activateNeuronPath(self,neuron1,neuron2):
-        self.path[neuron1]=neuron2
+
+    # Historique de la partie
+    def initPath(self):
+        self.path = {}
+
+    # Ajout d'une connexion dans l'historique
+    def activateNeuronPath(self, neuron1, neuron2):
+        self.path[neuron1] = neuron2
+
+    # Récompense des connexions établies durant la partie
+    # Effet de bord: réinitialisation de l'historique
     def recompenseConnections(self):
         for neuron1,neuron2 in self.path.items():
             neuron1.recompenseConnection(neuron2)
         self.initPath()
+
+    # Affiche les connexions
     def printAllConnections(self):
         for neuron in self.neurons: neuron.printConnections()
+    # Affiche les scores de chaque neurons
     def printScores(self):
         scores = {}
         for neuron in self.neurons:
             for n,s in neuron.connections.items():
-                if n not in scores: 
+                if n not in scores:
                     scores[n] = s
-                else: 
+                else:
                     scores[n] = scores[n] + s
         for neuron, score in scores.items():
             print(neuron.asString(), score)
 
 class Neuron:
-    def __init__(self,network,index):
+    def __init__(self, network, index):
         self.network = network
         self.index = index
         self.connections = {}
-    
+
     def makeConnections(self, maxDist, nbSticks, baseWeight):
-        if self.index != nbSticks: 
+        if self.index != nbSticks:
             nb = maxDist * 2 + 1
-        else: 
+        else:
             nb = maxDist + 1
         for i in range(1, nb):
             neuron = self.network.getNeuron(self.index - i)
-            if neuron != None: 
+            if neuron != None:
                 self.connections[neuron] = baseWeight
-                
+
     def chooseConnectedNeuron(self, shift):
-        neuron = None
-        # TODO méthode qui retourne un neurone connecté au neurone actuel en fonction du 'shift' (cf. CPUPlayer).
-        # On devra utiliser la méthode self.weighted_choice pour choisir au hasard dans une liste de connexions disponibles en fonction de leurs poids
-        return neuron
+        neuron = network[shift + self.index]
+        return weighted_choice(neuron.connections)
     def testNeuron(self, inValue):
-        # TODO renvoie un booléen: True si la différence entre la 'inValue' et la valeur du neurone actuel est comprise entre 1 et 3 inclus
-        return False
+        dif = inValue - self.index
+        return dif >= 1 and dif <= 3
     def recompenseConnection(self, neuron):
-        # TODO récompenser la connexion entre le neurone actuel et 'neuron'
         pass
     def printConnections(self):
         print("Connections of", self.asString() + ":")
@@ -75,12 +86,6 @@ class Neuron:
        r = random.uniform(0, total)
        upto = 0
        for c, w in connections.items():
-          if upto + w >= r: 
+          if upto + w >= r:
               return c
           upto += w
-        
-
-
-        
-
-

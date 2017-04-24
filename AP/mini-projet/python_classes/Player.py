@@ -2,7 +2,7 @@ import random
 from Neuron import *
 
 class Player:
-    def __init__(self,name):
+    def __init__(self, name):
         self.name = name
         self.nbWin = 0
     def getName(self):
@@ -35,7 +35,7 @@ class CPUPlayer(Player):
         self.mode = mode
         self.netw = NeuronNetwork(3, nbSticks)
         self.previousNeuron = None
-    def play(self,sticks):
+    def play(self, sticks):
         if self.mode == 'easy':
             return self.playEasy(sticks)
         elif self.mode == 'hard':
@@ -43,19 +43,15 @@ class CPUPlayer(Player):
         else:
             return self.playMedium(sticks)
     def playMedium(self, sticks):
-        # TODO modifier ici avec les quelques conditions pour éviter de faire une grosse erreur aux derniers tours
+        if sticks <= 4 and sticks >= 2:
+            return sticks - 1
+        else:
+            return self.playRandom(sticks)
+    def playEasy(self, sticks):
         return self.playRandom(sticks)
-    def playEasy(self,sticks):
-        return self.playRandom(sticks)
-    def playRandom(self,sticks):
+    def playRandom(self, sticks):
         return random.randint(1, (sticks % 3) + 1)
     def playHard(self, sticks):
-        # TODO utiliser le réseau neuronal pour choisir le nombre de bâtons à jouer
-        # utiliser l'attribut self.previousNeuron pour avoir le neuron précédemment sollicité dans la partie
-        # calculer un 'shift' qui correspond à la différence entre la valeur du précédent neurone et le nombre de bâtons encore en jeu
-        # utiliser la méthode 'chooseConnectedNeuron' du self.previousNeuron puis retourner le nombre de bâtons à jouer
-        # bien activer le réseau de neurones avec la méthode 'activateNeuronPath' après avoir choisi un neurone cible
-        # attention à gérer les cas particuliers (premier tour ou sticks==1)
         return self.playMedium(sticks)
     def getNeuronNetwork(self):
         return self.netw
@@ -66,10 +62,3 @@ class CPUPlayer(Player):
     def addLoss(self):
         super().addLoss()
         self.previousNeuron = None
-
-
-
-
-        
-
-

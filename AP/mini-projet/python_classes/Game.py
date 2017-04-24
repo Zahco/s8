@@ -1,7 +1,8 @@
 # Inutile de modifier cette classe normalement
+from Player import *
 
 class Game:
-    def __init__(self,nbSticks):
+    def __init__(self, nbSticks):
         self.nbSticks = nbSticks
     def start(self, player1, player2, verbose):
         if verbose:
@@ -10,12 +11,12 @@ class Game:
         currp = player1
         while sticks > 0:
             if verbose:
-                print("Remaining sticks:",sticks)
+                print("Remaining sticks:", sticks)
             n = currp.play(sticks)
             if n < 1 or n > 3:
                 print("Error")
             if verbose:
-                print(currp.getName(), "takes", n)
+                print(currp.getName(), " takes ", n)
             sticks -= n
             if currp == player1:
                 currp = player2
@@ -23,10 +24,16 @@ class Game:
                 currp = player1
 
         if verbose:
-            print(currp.getName(), "wins!")
+            print(currp.getName(), " wins!")
         if player1 == currp:
             player1.addWin()
             player2.addLoss()
         else:
             player1.addLoss()
             player2.addWin()
+    def run(self):
+        p1 = HumanPlayer("Human")
+        p2 = CPUPlayer("CPU", "medium", self.nbSticks)
+        self.start(p1, p2, True)
+
+Game(6).run()
