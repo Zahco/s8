@@ -1,0 +1,3 @@
+
+Compilation error in the file : /home/m1gil/spaurgeo/workspace/uml.tp3/src/sql.mt
+Unresolved call "eAllAttributs"

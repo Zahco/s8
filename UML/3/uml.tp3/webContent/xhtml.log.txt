@@ -1,0 +1,18 @@
+-> Errors in file : Adresse.xhtml
+Position 328 : EVAL : Unresolved call "name", in file : /uml.tp3/src/xhtml.mt, at line : 23, at column : 33, for node "ENodeList", for object : fragment=//Adresse/display file=/resource/uml.tp3/model/addressbook.ecore
+
+-> Errors in file : Personne.xhtml
+Position 402 : EVAL : Unresolved call "name", in file : /uml.tp3/src/xhtml.mt, at line : 23, at column : 33, for node "ENodeList", for object : fragment=//Personne/display file=/resource/uml.tp3/model/addressbook.ecore
+
+-> Errors in file : AdressBook.xhtml
+Position 339 : EVAL : Unresolved call "name", in file : /uml.tp3/src/xhtml.mt, at line : 23, at column : 33, for node "ENodeList", for object : fragment=//AdressBook/removeContact file=/resource/uml.tp3/model/addressbook.ecore
+
+
+Compilation error in the file : /home/m1gil/spaurgeo/workspace/uml.tp3/src/xhtml.mt
+Sequence is not valid
+
+Compilation error in the file : /home/m1gil/spaurgeo/workspace/uml.tp3/src/xhtml.mt
+Sequence is not valid
+
+Compilation error in the file : /home/m1gil/spaurgeo/workspace/uml.tp3/src/xhtml.mt
+Sequence is not valid
