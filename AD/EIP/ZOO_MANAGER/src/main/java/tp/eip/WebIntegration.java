@@ -1,0 +1,61 @@
+package tp.eip;
+
+import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
+import org.apache.camel.Expression;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.model.dataformat.JaxbDataFormat;
+import org.apache.log4j.BasicConfigurator;
+import tp.model.Animal;
+
+import javax.xml.bind.JAXBContext;
+import java.util.Scanner;
+
+/**
+ * Created by geoffrey on 28/04/17.
+ */
+public class WebIntegration {
+
+    public static void main(String[] args) throws Exception {
+
+        // Configure le logger par défaut
+        BasicConfigurator.configure();
+
+        // Contexte Camel par défaut
+        CamelContext context = new DefaultCamelContext();
+
+        // Recherche d'un animal par son nom
+        RouteBuilder routeBuilderSwitch = new RouteBuilder() {
+
+            @Override
+            public void configure() throws Exception {
+                // Start MyServiceController before
+                from("direct:TestWeb")
+                        .setHeader(Exchange.HTTP_METHOD,constant("POST"))
+                        .to("http://127.0.0.1:8080/animals/findByName/")
+                        .setBody(simple("${body.cage}"))
+                        .to("http://127.0.0.1:8080/cage/findByName/")
+                        .log("reponse received : ${body}");
+            }
+        };
+        routeBuilderSwitch.addRoutesToCamelContext(context);
+
+
+        // On démarre le contexte pour activer les routes
+        context.start(); 
+
+        // On crée un producteur
+        ProducerTemplate pt = context.createProducerTemplate();
+
+        String message = "";
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            // Enter the name of an animal or close to exit
+            message = scanner.nextLine();
+            if (message.equals("close")) break;
+            pt.sendBody("direct:TestWeb", message);
+        }
+    }
+}
