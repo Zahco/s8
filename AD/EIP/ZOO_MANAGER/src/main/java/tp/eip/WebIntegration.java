@@ -7,11 +7,13 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.dataformat.JaxbDataFormat;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.log4j.BasicConfigurator;
+import org.junit.Test;
 import tp.model.Animal;
 
 import javax.xml.bind.JAXBContext;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by geoffrey on 28/04/17.
@@ -35,9 +37,13 @@ public class WebIntegration {
                 from("direct:TestWeb")
                         .setHeader(Exchange.HTTP_METHOD,constant("POST"))
                         .to("http://127.0.0.1:8080/animals/findByName/")
-                        .setBody(simple("${body.cage}"))
+                        .unmarshal().json(JsonLibrary.Jackson)
+                        .setBody(simple("${body[cage]}"))
                         .to("http://127.0.0.1:8080/cage/findByName/")
-                        .log("reponse received : ${body}");
+                        .unmarshal().json(JsonLibrary.Jackson)
+                        .setHeader("longitude", simple("${body[position][longitude]}"))
+                        .setHeader("latitude", simple("${body[position][latitude]}"))
+                        .log("reponse received : ${body}\n ${header.latitude} ${header.longitude}");
             }
         };
         routeBuilderSwitch.addRoutesToCamelContext(context);
@@ -49,13 +55,15 @@ public class WebIntegration {
         // On crée un producteur
         ProducerTemplate pt = context.createProducerTemplate();
 
-        String message = "";
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            // Enter the name of an animal or close to exit
-            message = scanner.nextLine();
-            if (message.equals("close")) break;
-            pt.sendBody("direct:TestWeb", message);
-        }
+        String message = "Canine";
+        pt.sendBody("direct:TestWeb", message);
+//        Scanner scanner = new Scanner(System.in);
+//        while (true) {
+//            // Enter the name of an animal or close to exit
+//            //message = scanner.nextLine();
+//            if (message.equals("close")) break;
+//
+//        }
     }
+
 }
