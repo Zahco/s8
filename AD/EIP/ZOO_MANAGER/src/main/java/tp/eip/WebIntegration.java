@@ -78,27 +78,32 @@ public class WebIntegration {
 
             @Override
             public void configure() throws Exception {
-                // Start MyServiceController before
-                from("direct:TestWeb")
-                        .setHeader("searched", simple("${body}"))
-                        .setHeader(Exchange.HTTP_METHOD,constant("POST"))
-                        .doTry()
-                            .setBody(header("searched"))
-                            .to("http://127.0.0.1:8080/animals/findByName/")
-                            .unmarshal().json(JsonLibrary.Jackson)
-                            .log("${body}")
-                        .doCatch(HttpOperationFailedException.class)
-                            .doTry()
-                                .setBody(header("searched"))
-                                .to("http://127.0.0.1:8081/animals/findByName/")
-                                .unmarshal().json(JsonLibrary.Jackson)
-                                .log("${body}")
-                            .doCatch(HttpOperationFailedException.class)
-                                .log("Animal introuvable")
-                            .end()
-                        .end()
+            // Start MyServiceController before
 
-                ;
+            String[] uris = {
+                    "http://127.0.0.1:8080/animals/findByName/",
+                    "http://127.0.0.1:8081/animals/findByName/"
+            };
+            from("direct:TestWeb")
+                .setHeader("searched", simple("${body}"))
+                .setHeader(Exchange.HTTP_METHOD,constant("POST"))
+                .doTry()
+                    .setBody(header("searched"))
+                    .to("http://127.0.0.1:8080/animals/findByName/")
+                    .unmarshal().json(JsonLibrary.Jackson)
+                    .log("${body}")
+                .doCatch(HttpOperationFailedException.class)
+                    .doTry()
+                        .setBody(header("searched"))
+                        .to("http://127.0.0.1:8081/animals/findByName/")
+                        .unmarshal().json(JsonLibrary.Jackson)
+                        .log("${body}")
+                    .doCatch(HttpOperationFailedException.class)
+                        .log("Animal introuvable")
+                    .end()
+                .end()
+
+            ;
             }
         };
         routeBuilderSwitch.addRoutesToCamelContext(context);
