@@ -1,0 +1,24 @@
+# EIP
+
+## Installation
+
+C'est un projet maven sans originalité.
+
+## Utilisation
+
+### Question 3
+
+Lancez MyServiceController
+Décommenter la ligne 130 de WebIntegration
+Commenter la ligne 131 de WebIntegration
+Lancez WebIntegration
+Rentrer le nom d'un animal.
+
+### Question 4
+
+Lancez MyServiceController
+Lancez MyServiceController2
+Décommenter la ligne 131 de WebIntegration
+Commenter la ligne 130 de WebIntegration
+Lancez WebIntegration
+Rentrer le nom d'un animal.
